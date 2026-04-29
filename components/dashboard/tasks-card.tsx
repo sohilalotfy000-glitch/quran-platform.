@@ -6,23 +6,34 @@ import { CheckCircle2, Circle } from "lucide-react"
 
 interface Task { id: string; title: string; description: string; xp: number; completed: boolean; lectureGroup: string; }
 
-// قسمنا المهام وضفنا اسم المحاضرة لكل مجموعة
 const lectureTasksData: Task[] =[
-  { id: "l1", lectureGroup: "المحاضرة الأولى", title: "مراجعة 18 سورة", description: "تدريب ومراجعة حفظ 18 سورة بالترتيب", xp: 50, completed: false },
-  { id: "l2", lectureGroup: "المحاضرة الأولى", title: "تذكر الصور", description: "لعب 3 محاولات ميموري ليج", xp: 30, completed: false },
-  { id: "l3", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات", description: "قراءة وتدبر 5 آيات", xp: 40, completed: false },
-  
-  { id: "l4", lectureGroup: "المحاضرة الثانية", title: "تحديد الهدف والمقاومة", description: "كتابة الهدف ومتابعة المقاومة", xp: 30, completed: false },
-  { id: "l5", lectureGroup: "المحاضرة الثانية", title: "تهيئة الصفحة", description: "5 دقائق قبل الحفظ", xp: 20, completed: false },
-  { id: "l6", lectureGroup: "المحاضرة الثانية", title: "الاستدعاء النشط", description: "التدرب على الاستدعاء النشط", xp: 40, completed: false },
-  
-  { id: "l7", lectureGroup: "المحاضرة الثالثة", title: "حفظ في نصف ساعة", description: "تطبيق عملي لحفظ الصفحة", xp: 100, completed: false }
+  // المحاضرة الأولى
+  { id: "l1_1", lectureGroup: "المحاضرة الأولى", title: "مراجعة 18 سورة", description: "تدريب ومراجعة حفظ 18 سورة بالترتيب من القرآن", xp: 50, completed: false },
+  { id: "l1_2", lectureGroup: "المحاضرة الأولى", title: "تذكر الصور", description: "3 محاولات على تذكر الصور على موقع ميموري ليج", xp: 30, completed: false },
+  { id: "l1_3", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات", description: "تدبر 5 آيات", xp: 40, completed: false },
+
+  // المحاضرة الثانية
+  { id: "l2_1", lectureGroup: "المحاضرة الثانية", title: "تحديد الهدف والمقاومة", description: "تحديد الهدف والمقاومة", xp: 30, completed: false },
+  { id: "l2_2", lectureGroup: "المحاضرة الثانية", title: "الاستدعاء النشط", description: "التدرب على الاستدعاء النشط", xp: 40, completed: false },
+  { id: "l2_3", lectureGroup: "المحاضرة الثانية", title: "تمهيد الصفحة", description: "تمهيد صفحة في 10 دقايق تفسير وتهيئة", xp: 30, completed: false },
+  { id: "l2_4", lectureGroup: "المحاضرة الثانية", title: "المؤقت الحلزوني", description: "المؤقت الحلزوني لمراقبة الوقت", xp: 20, completed: false },
+
+  // المحاضرة الثالثة
+  { id: "l3_1", lectureGroup: "المحاضرة الثالثة", title: "حفظ الصفحة في نصف ساعة", description: "تطبيق على حفظ الصفحة في اقل من نصف ساعة", xp: 100, completed: false },
+  { id: "l3_2", lectureGroup: "المحاضرة الثالثة", title: "تهيئة الصفحة والسماع", description: "تهيئة الصفحة وسماع في 7 دقائق", xp: 30, completed: false },
+  { id: "l3_3", lectureGroup: "المحاضرة الثالثة", title: "تمارين التركيز", description: "بومودورو، العد التنازلي، وورقة المشتتات", xp: 50, completed: false },
+
+  // المحاضرة الرابعة
+  { id: "l4_1", lectureGroup: "المحاضرة الرابعة", title: "القراءة السريعة", description: "4 مرات قراءة سريعة كل مرة 10 دقايق", xp: 40, completed: false },
+  { id: "l4_2", lectureGroup: "المحاضرة الرابعة", title: "القراءة التصويرية", description: "7 مرات قراءة تصويرية كل مرة 10 دقايق", xp: 70, completed: false },
+  { id: "l4_3", lectureGroup: "المحاضرة الرابعة", title: "تهيئة الصفحة", description: "تهيئة الصفحة", xp: 20, completed: false },
+  { id: "l4_4", lectureGroup: "المحاضرة الرابعة", title: "تمارين العين", description: "تمارين العين", xp: 20, completed: false },
+  { id: "l4_5", lectureGroup: "المحاضرة الرابعة", title: "حفظ صفحة", description: "حفظ صفحة في اقل من 20 دقيقة", xp: 100, completed: false }
 ];
 
 export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   const [tasks, setTasks] = useState(lectureTasksData);
 
-  // السطر ده هيخفي المهام اليومية خالص من الموقع
   if (type === "daily") return null;
 
   const toggleTask = (taskId: string) => {
@@ -32,9 +43,8 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   const completedCount = tasks.filter(t => t.completed).length;
   const totalXP = tasks.filter(t => t.completed).reduce((acc, t) => acc + t.xp, 0);
 
-  // تجميع المهام تحت عناوين المحاضرات
   const groupedTasks = tasks.reduce((acc, task) => {
-    if (!acc[task.lectureGroup]) acc[task.lectureGroup] = [];
+    if (!acc[task.lectureGroup]) acc[task.lectureGroup] =[];
     acc[task.lectureGroup].push(task);
     return acc;
   }, {} as Record<string, Task[]>);
