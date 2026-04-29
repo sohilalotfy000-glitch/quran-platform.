@@ -1,3 +1,4 @@
+
 "use client"
 
 import { useState } from "react"
@@ -34,7 +35,7 @@ const initialDailyTasks: Task[] =[
   }
 ]
 
-// مهام المحاضرات (تم إضافة أول 3 محاضرات)
+// مهام المحاضرات
 const initialLectureTasks: Task[] =[
   // المحاضرة الأولى
   {
@@ -110,4 +111,4 @@ interface TasksCardProps {
 
 export function TasksCard({ type }: TasksCardProps) {
   const [dailyTasks, setDailyTasks] = useState<Task[]>(initialDailyTasks)
-  const[lectureTasks, setLectureTasks] = useState<Task
+  const [lectureTasks, setLectureTasks] = useState<Task
