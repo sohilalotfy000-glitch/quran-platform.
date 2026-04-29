@@ -1,113 +1,54 @@
-"use client"
-
-import { useState } from "react"
-import { Sidebar } from "@/components/dashboard/sidebar"
-import { LevelCard } from "@/components/dashboard/level-card"
-import { BadgesCard } from "@/components/dashboard/badges-card"
+import { StatsGrid } from "@/components/dashboard/stats-grid"
 import { TasksCard } from "@/components/dashboard/tasks-card"
 import { LeaderboardCard } from "@/components/dashboard/leaderboard-card"
-import { StatsGrid } from "@/components/dashboard/stats-grid"
-import { Bell, Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { BadgesCard } from "@/components/dashboard/badges-card"
+import { Coins, Gem, LayoutDashboard, ListTodo, Trophy, PlaySquare } from "lucide-react"
 
-type NavItem = "dashboard" | "tasks"
-
-export default function LearningDashboard() {
-  const [activeNav, setActiveNav] = useState<NavItem>("dashboard")
-  const [sidebarOpen, setSidebarOpen] = useState(false)
-
+export default function Page() {
   return (
-    <div className="min-h-screen flex flex-row-reverse">
-      <Sidebar
-        activeNav={activeNav}
-        onNavChange={setActiveNav}
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
-      />
-
-      <main className="flex-1 lg:mr-0">
-        {/* Header */}
-        <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-lg border-b border-border">
-          <div className="flex items-center justify-between px-6 py-4 lg:px-8">
-            <div className="flex items-center gap-3">
-              <Button variant="ghost" size="icon" className="relative">
-                <Search className="size-5" />
-              </Button>
-              <Button variant="ghost" size="icon" className="relative">
-                <Bell className="size-5" />
-                <span className="absolute top-1 left-1 size-2 bg-destructive rounded-full" />
-              </Button>
-              <Avatar className="size-10 border-2 border-primary/30">
-                <AvatarImage src="https://i.pravatar.cc/150?img=4" alt="المستخدم" />
-                <AvatarFallback className="bg-primary/10 text-primary font-semibold">عم</AvatarFallback>
-              </Avatar>
-            </div>
-            <div className="lg:hidden w-10" /> {/* Spacer for mobile menu button */}
-            <div className="hidden lg:block text-left">
-              <h1 className="text-2xl font-bold text-foreground">
-                {activeNav === "dashboard" && "أهلا بك، يا صاحب القرآن!"}
-                {activeNav === "tasks" && "المهام"}
-              </h1>
-              <p className="text-sm text-muted-foreground">
-                {activeNav === "dashboard" && "هل أنت مستعد لمواصلة رحلة التعلم؟"}
-                {activeNav === "tasks" && "أكمل المهام لكسب النقاط والارتقاء بمستواك"}
-              </p>
-            </div>
+    <div className="min-h-screen bg-slate-50" dir="rtl">
+      {/* الشريط العلوي الجديد */}
+      <nav className="sticky top-0 z-50 w-full bg-[#0f172a] text-white shadow-md">
+        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="bg-emerald-500 p-2 rounded-lg font-bold">قرآن</div>
           </div>
-        </header>
-
-        {/* Content */}
-        <div className="p-6 lg:p-8">
-          {/* Mobile title */}
-          <div className="lg:hidden mb-6 mt-8 text-right">
-            <h1 className="text-2xl font-bold text-foreground">
-              {activeNav === "dashboard" && "أهلا بك، برمج ذاكرتك بالقرآن!"}
-              {activeNav === "tasks" && "المهام"}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              {activeNav === "dashboard" && "هل أنت مستعد لمواصلة رحلة التعلم؟"}
-              {activeNav === "tasks" && "أكمل المهام لكسب النقاط والارتقاء بمستواك"}
-            </p>
+          
+          <div className="hidden md:flex items-center gap-6">
+            <span className="flex items-center gap-2 text-emerald-400 font-bold cursor-pointer"><LayoutDashboard className="size-4"/> لوحة التحكم</span>
+            <span className="flex items-center gap-2 text-slate-300 cursor-pointer hover:text-emerald-400"><PlaySquare className="size-4"/> الفيديوهات</span>
+            <span className="flex items-center gap-2 text-slate-300 cursor-pointer hover:text-emerald-400"><ListTodo className="size-4"/> المهام</span>
+            <span className="flex items-center gap-2 text-slate-300 cursor-pointer hover:text-emerald-400"><Trophy className="size-4"/> المتصدرون</span>
           </div>
 
-          {activeNav === "dashboard" && (
-            <div className="space-y-6">
-              {/* Level and Stats Row */}
-              <div className="grid lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-1">
-                  <LevelCard
-                    level={18}
-                    currentXP={650}
-                    requiredXP={1000}
-                    totalPoints={8750}
-                  />
-                </div>
-                <div className="lg:col-span-2">
-                  <StatsGrid />
-                </div>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3 bg-slate-800 p-2 rounded-full px-4 border border-slate-700">
+              <div className="flex items-center gap-1 text-yellow-400 font-bold">
+                <span>108</span> <Coins className="size-4" />
               </div>
-
-              {/* Badges */}
-              <BadgesCard />
-
-              {/* Daily Tasks and Lecture Tasks */}
-              <div className="grid lg:grid-cols-2 gap-6">
-                <TasksCard type="daily" />
-                <TasksCard type="lecture" />
+              <div className="w-px h-4 bg-slate-600"></div>
+              <div className="flex items-center gap-1 text-blue-400 font-bold">
+                <span>12</span> <Gem className="size-4" />
               </div>
-
-              {/* Leaderboard */}
-              <LeaderboardCard />
             </div>
-          )}
-
-          {activeNav === "tasks" && (
-            <div className="space-y-6">
-              <TasksCard type="daily" />
-              <TasksCard type="lecture" />
+            <div className="h-9 w-9 rounded-full bg-emerald-500 flex items-center justify-center font-bold text-white">
+              S
             </div>
-          )}
+          </div>
+        </div>
+      </nav>
+
+      {/* محتوى الموقع */}
+      <main className="container mx-auto p-4 md:p-8 space-y-6">
+        <StatsGrid />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 space-y-6">
+            <TasksCard type="lecture" />
+          </div>
+          <div className="space-y-6">
+            <LeaderboardCard />
+            <BadgesCard />
+          </div>
         </div>
       </main>
     </div>
