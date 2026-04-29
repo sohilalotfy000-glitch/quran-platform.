@@ -46,7 +46,7 @@ export default function LearningDashboard() {
             <div className="lg:hidden w-10" /> {/* Spacer for mobile menu button */}
             <div className="hidden lg:block text-left">
               <h1 className="text-2xl font-bold text-foreground">
-                {activeNav === "dashboard" && "مرحباً بك، عمر!"}
+                {activeNav === "dashboard" && "أهلا بك، يا صاحب القرآن!"}
                 {activeNav === "tasks" && "المهام"}
               </h1>
               <p className="text-sm text-muted-foreground">
@@ -62,7 +62,7 @@ export default function LearningDashboard() {
           {/* Mobile title */}
           <div className="lg:hidden mb-6 mt-8 text-right">
             <h1 className="text-2xl font-bold text-foreground">
-              {activeNav === "dashboard" && "مرحباً بك، عمر!"}
+              {activeNav === "dashboard" && "أهلا بك، برمج ذاكرتك بالقرآن!"}
               {activeNav === "tasks" && "المهام"}
             </h1>
             <p className="text-sm text-muted-foreground">
