@@ -1,103 +1,105 @@
-"use client"
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة المتابعة القرآني</title>
+    <!-- استخدام Tailwind CSS للتصميم -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap');
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f9fafb;
+        }
+    </style>
+</head>
+<body class="p-6">
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Award, BookOpen, Brain, Flame, Star, Target } from "lucide-react"
+    <div class="max-w-6xl mx-auto space-y-8">
 
-interface Badge {
-  id: string
-  name: string
-  icon: React.ElementType
-  color: string
-  bgColor: string
-  earnedAt: string
-}
+        <!-- القسم الأول: البطاقات العلوية -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            
+            <!-- بطاقة 1: الجملة الحماسية -->
+            <div class="bg-white rounded-xl border border-gray-200 p-6 flex items-center justify-center text-center shadow-sm hover:shadow-md transition">
+                <h3 class="text-xl font-bold text-green-700">✨ رحلة مختلفة مع القرآن</h3>
+            </div>
 
-interface BadgesCardProps {
-  badges?: Badge[]
-}
-
-const defaultBadges: Badge[] = [
-  {
-    id: "1",
-    name: "متعلم سريع",
-    icon: Brain,
-    color: "text-chart-1",
-    bgColor: "bg-chart-1/15",
-    earnedAt: "منذ يومين"
-  },
-  {
-    id: "2",
-    name: "محب القراءة",
-    icon: BookOpen,
-    color: "text-chart-2",
-    bgColor: "bg-chart-2/15",
-    earnedAt: "منذ ٥ أيام"
-  },
-  {
-    id: "3",
-    name: "مثابر",
-    icon: Flame,
-    color: "text-chart-4",
-    bgColor: "bg-chart-4/15",
-    earnedAt: "منذ أسبوع"
-  },
-  {
-    id: "4",
-    name: "منجز",
-    icon: Target,
-    color: "text-chart-3",
-    bgColor: "bg-chart-3/15",
-    earnedAt: "منذ أسبوعين"
-  },
-  {
-    id: "5",
-    name: "نجم صاعد",
-    icon: Star,
-    color: "text-accent",
-    bgColor: "bg-accent/15",
-    earnedAt: "منذ ٣ أسابيع"
-  },
-  {
-    id: "6",
-    name: "بطل",
-    icon: Award,
-    color: "text-primary",
-    bgColor: "bg-primary/15",
-    earnedAt: "منذ شهر"
-  },
-]
-
-export function BadgesCard({ badges = defaultBadges }: BadgesCardProps) {
-  return (
-    <Card className="border shadow-lg">
-      <CardHeader className="pb-4">
-        <CardTitle className="flex items-center gap-2 text-lg">
-          <Award className="size-5 text-accent" />
-          أحدث الأوسمة
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
-          {badges.map((badge) => {
-            const Icon = badge.icon
-            return (
-              <div
-                key={badge.id}
-                className="group flex flex-col items-center gap-2 p-3 rounded-xl hover:bg-muted/50 transition-colors cursor-pointer"
-              >
-                <div
-                  className={`size-12 rounded-xl ${badge.bgColor} ${badge.color} flex items-center justify-center transition-transform group-hover:scale-110`}
-                >
-                  <Icon className="size-6" />
+            <!-- بطاقة 2: المهام المكتملة -->
+            <div class="bg-white rounded-xl border border-gray-200 p-6 flex justify-between items-center shadow-sm hover:shadow-md transition">
+                <div>
+                    <p class="text-3xl font-bold text-gray-800">42</p>
+                    <p class="text-sm text-gray-500 mt-1">مهام مكتملة</p>
                 </div>
-                <span className="text-xs font-medium text-center text-muted-foreground group-hover:text-foreground transition-colors">
-                  {badge.name}
-                </span>
-              </div>
-            )
-          })}
+                <div class="w-12 h-12 rounded-full bg-purple-100 text-purple-500 flex items-center justify-center text-2xl">
+                    🎯
+                </div>
+            </div>
+
+            <!-- بطاقة 3: الصفحات المحفوظة -->
+            <div class="bg-white rounded-xl border border-gray-200 p-6 flex justify-between items-center shadow-sm hover:shadow-md transition">
+                <div>
+                    <p class="text-3xl font-bold text-gray-800">12</p>
+                    <p class="text-sm text-gray-500 mt-1">صفحات محفوظة</p>
+                </div>
+                <div class="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-2xl">
+                    📖
+                </div>
+            </div>
+
+            <!-- بطاقة 4: نظام النقاط -->
+            <div class="bg-white rounded-xl border border-gray-200 p-4 flex flex-col justify-center shadow-sm hover:shadow-md transition">
+                <h4 class="text-md font-bold text-gray-700 mb-2 border-b pb-2">كيف تجمع النقاط؟</h4>
+                <ul class="text-sm text-gray-600 space-y-1">
+                    <li>✔️ أي مهمة عادية = <span class="font-bold text-green-600">5 نقاط</span></li>
+                    <li>📖 حفظ صفحة كاملة = <span class="font-bold text-green-600">10 نقاط</span></li>
+                </ul>
+            </div>
+
         </div>
-      </CardContent>
-    </Card>
-  )
-}
+
+        <!-- القسم الثاني: لوحة المتصدرين (التنافس) -->
+        <div class="bg-white rounded-xl border border-gray-200 p-6 shadow-sm max-w-3xl mx-auto">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    🏆 لوحة المتصدرين
+                </h2>
+                <span class="text-sm text-gray-500">تنافس مع زملائك واصعد للقمة!</span>
+            </div>
+
+            <!-- قائمة المتصدرين -->
+            <div class="space-y-3">
+                
+                <!-- المستخدم الحالي (أنت) -->
+                <div class="flex items-center justify-between bg-green-50 border border-green-200 rounded-lg p-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-8 text-center font-bold text-green-700">1</div>
+                        <div class="w-12 h-12 rounded-full bg-green-200 text-green-700 flex items-center justify-center font-bold text-lg">
+                            أ
+                        </div>
+                        <div>
+                            <p class="font-bold text-green-800 text-lg">أنت</p>
+                            <p class="text-xs text-green-600">المستوى 1</p>
+                        </div>
+                    </div>
+                    <div class="text-left">
+                        <p class="font-bold text-gray-800 text-lg">0</p>
+                        <p class="text-xs text-gray-500">نقطة</p>
+                    </div>
+                </div>
+
+                <!-- مساحة فارغة في انتظار تسجيل باقي المشتركين -->
+                <div class="flex flex-col items-center justify-center p-8 text-gray-400 border-2 border-dashed border-gray-100 rounded-lg">
+                    <span class="text-3xl mb-2">👥</span>
+                    <p class="text-sm">أنت أول المنضمين للرحلة!</p>
+                    <p class="text-xs mt-1">عند انضمام مشتركين آخرين ستظهر إحصائياتهم هنا للمنافسة.</p>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
