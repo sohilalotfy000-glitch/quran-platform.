@@ -1,12 +1,10 @@
-ts-nocheck
+
 import { TasksCard } from "@/components/dashboard/tasks-card"
 import { LeaderboardCard } from "@/components/dashboard/leaderboard-card"
 import { Coins } from "lucide-react"
 import { SignInButton, UserButton } from '@clerk/nextjs'
 import { getDashboardData } from "@/app/actions"
 import { auth } from "@clerk/nextjs/server"
-
-export const dynamic = "force-dynamic";
 
 export default async function Page() {
   const data = await getDashboardData();
