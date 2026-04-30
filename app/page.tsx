@@ -33,14 +33,13 @@ export default function Page() {
               </SignInButton>
             </SignedOut>
             <SignedIn>
-              <UserButton afterSignOutUrl="/" />
+              <UserButton />
             </SignedIn>
           </div>
         </div>
       </nav>
 
       <main className="container mx-auto p-4 md:p-8 space-y-6">
-        {/* شيلنا المربعات والمهام هتاخد الشاشة بشكل مريح */}
         <div className="max-w-5xl mx-auto space-y-6 mt-4">
           <TasksCard type="lecture" />
         </div>
@@ -48,4 +47,3 @@ export default function Page() {
     </div>
   )
 }
-
