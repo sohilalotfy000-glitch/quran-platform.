@@ -2,7 +2,7 @@ import { StatsGrid } from "@/components/dashboard/stats-grid"
 import { TasksCard } from "@/components/dashboard/tasks-card"
 import { LeaderboardCard } from "@/components/dashboard/leaderboard-card"
 import { BadgesCard } from "@/components/dashboard/badges-card"
-import { Coins, Gem, LayoutDashboard, ListTodo, Trophy, PlaySquare } from "lucide-react"
+import { Coins, Gem, ListTodo, Trophy } from "lucide-react"
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 export default function Page() {
@@ -14,10 +14,9 @@ export default function Page() {
             <div className="bg-emerald-500 p-2 rounded-lg font-bold">قرآن</div>
           </div>
           
+          {/* هنا خلينا المهام والمتصدرون بس */}
           <div className="hidden md:flex items-center gap-6">
-            <span className="flex items-center gap-2 text-emerald-400 font-bold cursor-pointer"><LayoutDashboard className="size-4"/> لوحة التحكم</span>
-            <span className="flex items-center gap-2 text-slate-300 cursor-pointer hover:text-emerald-400"><PlaySquare className="size-4"/> الفيديوهات</span>
-            <span className="flex items-center gap-2 text-slate-300 cursor-pointer hover:text-emerald-400"><ListTodo className="size-4"/> المهام</span>
+            <span className="flex items-center gap-2 text-emerald-400 font-bold cursor-pointer"><ListTodo className="size-4"/> المهام</span>
             <span className="flex items-center gap-2 text-slate-300 cursor-pointer hover:text-emerald-400"><Trophy className="size-4"/> المتصدرون</span>
           </div>
 
@@ -32,7 +31,6 @@ export default function Page() {
               </div>
             </div>
             
-            {/* زرار تسجيل الدخول من Clerk */}
             <SignedOut>
               <SignInButton mode="modal">
                 <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-1.5 rounded-lg font-bold text-sm">
