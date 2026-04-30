@@ -7,28 +7,24 @@ import { CheckCircle2, Circle } from "lucide-react"
 interface Task { id: string; title: string; description: string; xp: number; completed: boolean; lectureGroup: string; }
 
 const lectureTasksData: Task[] =[
-  // المحاضرة الأولى
-  { id: "l1_1", lectureGroup: "المحاضرة الأولى", title: "مراجعة 18 سورة", description: "تدريب ومراجعة حفظ 18 سورة بالترتيب من القرآن", xp: 50, completed: false },
-  { id: "l1_2", lectureGroup: "المحاضرة الأولى", title: "تذكر الصور", description: "3 محاولات على تذكر الصور على موقع ميموري ليج", xp: 30, completed: false },
-  { id: "l1_3", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات", description: "تدبر 5 آيات", xp: 40, completed: false },
+  { id: "l1_1", lectureGroup: "المحاضرة الأولى", title: "مراجعة 18 سورة", description: "تدريب ومراجعة حفظ 18 سورة بالترتيب", xp: 5, completed: false },
+  { id: "l1_2", lectureGroup: "المحاضرة الأولى", title: "تذكر الصور", description: "3 محاولات على تذكر الصور على موقع ميموري ليج", xp: 5, completed: false },
+  { id: "l1_3", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات", description: "تدبر 5 آيات", xp: 5, completed: false },
 
-  // المحاضرة الثانية
-  { id: "l2_1", lectureGroup: "المحاضرة الثانية", title: "تحديد الهدف والمقاومة", description: "تحديد الهدف والمقاومة", xp: 30, completed: false },
-  { id: "l2_2", lectureGroup: "المحاضرة الثانية", title: "الاستدعاء النشط", description: "التدرب على الاستدعاء النشط", xp: 40, completed: false },
-  { id: "l2_3", lectureGroup: "المحاضرة الثانية", title: "تمهيد الصفحة", description: "تمهيد صفحة في 10 دقايق تفسير وتهيئة", xp: 30, completed: false },
-  { id: "l2_4", lectureGroup: "المحاضرة الثانية", title: "المؤقت الحلزوني", description: "المؤقت الحلزوني لمراقبة الوقت", xp: 20, completed: false },
+  { id: "l2_1", lectureGroup: "المحاضرة الثانية", title: "تحديد الهدف والمقاومة", description: "تحديد الهدف والمقاومة", xp: 5, completed: false },
+  { id: "l2_2", lectureGroup: "المحاضرة الثانية", title: "الاستدعاء النشط", description: "التدرب على الاستدعاء النشط", xp: 5, completed: false },
+  { id: "l2_3", lectureGroup: "المحاضرة الثانية", title: "تمهيد الصفحة", description: "تمهيد صفحة في 10 دقايق", xp: 5, completed: false },
+  { id: "l2_4", lectureGroup: "المحاضرة الثانية", title: "المؤقت الحلزوني", description: "المؤقت الحلزوني لمراقبة الوقت", xp: 5, completed: false },
 
-  // المحاضرة الثالثة
-  { id: "l3_1", lectureGroup: "المحاضرة الثالثة", title: "حفظ الصفحة في نصف ساعة", description: "تطبيق على حفظ الصفحة في اقل من نصف ساعة", xp: 100, completed: false },
-  { id: "l3_2", lectureGroup: "المحاضرة الثالثة", title: "تهيئة الصفحة والسماع", description: "تهيئة الصفحة وسماع في 7 دقائق", xp: 30, completed: false },
-  { id: "l3_3", lectureGroup: "المحاضرة الثالثة", title: "تمارين التركيز", description: "بومودورو، العد التنازلي، وورقة المشتتات", xp: 50, completed: false },
+  { id: "l3_1", lectureGroup: "المحاضرة الثالثة", title: "حفظ الصفحة في نصف ساعة", description: "تطبيق على حفظ الصفحة في اقل من نصف ساعة", xp: 5, completed: false },
+  { id: "l3_2", lectureGroup: "المحاضرة الثالثة", title: "تهيئة الصفحة والسماع", description: "تهيئة الصفحة وسماع في 7 دقائق", xp: 5, completed: false },
+  { id: "l3_3", lectureGroup: "المحاضرة الثالثة", title: "تمارين التركيز", description: "بومودورو، العد التنازلي، وورقة المشتتات", xp: 5, completed: false },
 
-  // المحاضرة الرابعة
-  { id: "l4_1", lectureGroup: "المحاضرة الرابعة", title: "القراءة السريعة", description: "4 مرات قراءة سريعة كل مرة 10 دقايق", xp: 40, completed: false },
-  { id: "l4_2", lectureGroup: "المحاضرة الرابعة", title: "القراءة التصويرية", description: "7 مرات قراءة تصويرية كل مرة 10 دقايق", xp: 70, completed: false },
-  { id: "l4_3", lectureGroup: "المحاضرة الرابعة", title: "تهيئة الصفحة", description: "تهيئة الصفحة", xp: 20, completed: false },
-  { id: "l4_4", lectureGroup: "المحاضرة الرابعة", title: "تمارين العين", description: "تمارين العين", xp: 20, completed: false },
-  { id: "l4_5", lectureGroup: "المحاضرة الرابعة", title: "حفظ صفحة", description: "حفظ صفحة في اقل من 20 دقيقة", xp: 100, completed: false }
+  { id: "l4_1", lectureGroup: "المحاضرة الرابعة", title: "القراءة السريعة", description: "4 مرات قراءة سريعة", xp: 5, completed: false },
+  { id: "l4_2", lectureGroup: "المحاضرة الرابعة", title: "القراءة التصويرية", description: "7 مرات قراءة تصويرية", xp: 5, completed: false },
+  { id: "l4_3", lectureGroup: "المحاضرة الرابعة", title: "تهيئة الصفحة", description: "تهيئة الصفحة", xp: 5, completed: false },
+  { id: "l4_4", lectureGroup: "المحاضرة الرابعة", title: "تمارين العين", description: "تمارين العين", xp: 5, completed: false },
+  { id: "l4_5", lectureGroup: "المحاضرة الرابعة", title: "حفظ صفحة", description: "حفظ صفحة في اقل من 20 دقيقة", xp: 5, completed: false }
 ];
 
 export function TasksCard({ type }: { type: "daily" | "lecture" }) {
