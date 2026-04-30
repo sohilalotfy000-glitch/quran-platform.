@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 
 import { TasksCard } from "@/components/dashboard/tasks-card"
 import { LeaderboardCard } from "@/components/dashboard/leaderboard-card"
@@ -10,7 +11,6 @@ export default async function Page() {
   const leaderboard = data?.leaderboard ||[];
   const currentUserId = data?.currentUserId || "";
 
-  // حساب نقط المتدرب الحالي عشان تظهر في الشريط اللي فوق
   const currentUserEntry = leaderboard.find((e: any) => e.id === currentUserId);
   const myTotalXp = currentUserEntry ? currentUserEntry.xp : 0;
 
