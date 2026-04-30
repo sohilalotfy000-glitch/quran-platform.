@@ -4,6 +4,8 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle2, Circle } from "lucide-react"
+import { saveProgress, getDashboardData } from "@/app/actions"
+import { useUser } from "@clerk/nextjs"
 
 interface Task { id: string; title: string; description: string; xp: number; completed: boolean; lectureGroup: string; }
 
@@ -30,28 +32,28 @@ const lectureTasksData: Task[] =[
 
 export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   const [tasks, setTasks] = useState<Task[]>(lectureTasksData);
-  const [mounted, setMounted] = useState(false);
+  const { isSignedIn } = useUser();
 
-  // السحر هنا: بيقرأ المهام المحفوظة فوراً أول ما يفتح
+  // بيجيب البيانات من الخزنة الحقيقية
   useEffect(() => {
-    setMounted(true);
-    const saved = localStorage.getItem("quran-tasks-save");
-    if (saved) {
-      setTasks(JSON.parse(saved));
+    if (isSignedIn) {
+      getDashboardData().then((data) => {
+        if (data && data.myTasks) setTasks(data.myTasks);
+      });
     }
-  },[]);
+  }, [isSignedIn]);
 
-  // السحر التاني: بيحفظ أي كليك بتعمليه فوراً في المتصفح
-  useEffect(() => {
-    if (mounted) {
-      localStorage.setItem("quran-tasks-save", JSON.stringify(tasks));
-    }
-  }, [tasks, mounted]);
-
-  if (type === "daily" || !mounted) return null;
+  if (type === "daily") return null;
 
   const toggleTask = (taskId: string) => {
-    setTasks(tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t));
+    const newTasks = tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t);
+    setTasks(newTasks);
+    
+    // حساب النقط والحفظ في الخزنة الحقيقية
+    const newTotalXP = newTasks.filter(t => t.completed).reduce((acc, t) => acc + t.xp, 0);
+    if (isSignedIn) {
+      saveProgress(newTasks, newTotalXP);
+    }
   };
 
   const completedCount = tasks.filter(t => t.completed).length;
@@ -64,17 +66,17 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   }, {} as Record<string, Task[]>);
 
   return (
-    <div className="border shadow-lg bg-card text-card-foreground rounded-xl">
-      <div className="flex flex-col space-y-1.5 p-6 pb-4">
+    <Card className="border shadow-lg">
+      <CardHeader className="pb-4">
         <div className="flex items-center justify-between flex-wrap gap-3">
-          <h3 className="font-semibold leading-none tracking-tight flex items-center gap-2 text-lg">مهام المحاضرات</h3>
+          <CardTitle className="flex items-center gap-2 text-lg">مهام المحاضرات</CardTitle>
           <div className="flex items-center gap-3">
             <Badge variant="secondary" className="border-0 bg-secondary/20 text-secondary-foreground">{completedCount}/{tasks.length} مكتمل</Badge>
             <Badge className="border-0 bg-accent/20 text-accent-foreground">+{totalXP} نقطة</Badge>
           </div>
         </div>
-      </div>
-      <div className="p-6 pt-0">
+      </CardHeader>
+      <CardContent>
         <div className="space-y-6">
           {Object.entries(groupedTasks).map(([groupName, groupTasks]) => (
             <div key={groupName} className="space-y-3">
@@ -94,7 +96,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
             </div>
           ))}
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
