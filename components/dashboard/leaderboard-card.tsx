@@ -1,8 +1,9 @@
-
 "use client"
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Trophy, Medal, Award } from "lucide-react"
+import { useUser } from "@clerk/nextjs"
 import { cn } from "@/lib/utils"
 
 const rankIcons =[
@@ -11,12 +12,42 @@ const rankIcons =[
   { icon: Award, color: "text-chart-4", bg: "bg-chart-4/15" },
 ]
 
-export function LeaderboardCard({ entries =[], currentUserId = "" }: { entries: any[], currentUserId?: string }) {
-  if (!entries || entries.length === 0) {
+export function LeaderboardCard({ entries = [], currentUserId = "" }: { entries?: any[], currentUserId?: string }) {
+  const { user, isLoaded } = useUser();
+  const[localXp, setLocalXp] = useState(0);
+
+  // الخدعة: بنقرأ نقطك فوراً من المتصفح عشان متتأخريش
+  useEffect(() => {
+    const saved = localStorage.getItem("quran-tasks-v5");
+    if (saved) {
+      const tasks = JSON.parse(saved);
+      const xp = tasks.filter((t: any) => t.completed).reduce((acc: number, t: any) => acc + t.xp, 0);
+      setLocalXp(xp);
+    }
+  }, []);
+
+  // دمج اسمك ونقطك في اللوحة فوراً
+  let finalLeaderboard =[...entries];
+  if (isLoaded && user && localXp > 0) {
+    const myIndex = finalLeaderboard.findIndex(e => e.id === user.id);
+    if (myIndex !== -1) {
+      finalLeaderboard[myIndex].xp = Math.max(finalLeaderboard[myIndex].xp, localXp);
+    } else {
+      finalLeaderboard.push({
+        id: user.id,
+        name: user.firstName || "بطل القرآن",
+        avatar: user.imageUrl,
+        xp: localXp
+      });
+    }
+    finalLeaderboard.sort((a, b) => b.xp - a.xp); // ترتيب من الكبير للصغير
+  }
+
+  if (finalLeaderboard.length === 0) {
      return (
        <Card className="border shadow-lg">
          <CardHeader className="pb-4"><CardTitle className="flex items-center gap-2 text-lg"><Trophy className="size-5 text-accent" />لوحة المتصدرين</CardTitle></CardHeader>
-         <CardContent><p className="text-center text-muted-foreground py-4">لا يوجد متصدرين حتى الآن. كن أول من ينجز المهام!</p></CardContent>
+         <CardContent><p className="text-center text-muted-foreground py-4">أنجز المهام لتظهر هنا!</p></CardContent>
        </Card>
      )
   }
@@ -31,12 +62,12 @@ export function LeaderboardCard({ entries =[], currentUserId = "" }: { entries: 
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          {entries.map((entry, index) => {
-            const rank = index + 1
-            const RankIcon = rankIcons[index]?.icon
-            const rankColor = rankIcons[index]?.color
-            const rankBg = rankIcons[index]?.bg
-            const isCurrentUser = entry.id === currentUserId;
+          {finalLeaderboard.map((entry, index) => {
+            const rank = index + 1;
+            const RankIcon = rankIcons[index]?.icon;
+            const rankColor = rankIcons[index]?.color;
+            const rankBg = rankIcons[index]?.bg;
+            const isCurrentUser = user && entry.id === user.id;
 
             return (
               <div key={entry.id} className={cn("flex items-center gap-4 p-3 rounded-xl transition-all", isCurrentUser ? "bg-emerald-500/10 border-2 border-emerald-500/30" : "hover:bg-muted/50")}>
@@ -68,4 +99,3 @@ export function LeaderboardCard({ entries =[], currentUserId = "" }: { entries: 
     </Card>
   )
 }
-
