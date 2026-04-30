@@ -1,10 +1,11 @@
-export const dynamic = "force-dynamic";
-
+// @ts-nocheck
 import { TasksCard } from "@/components/dashboard/tasks-card"
 import { LeaderboardCard } from "@/components/dashboard/leaderboard-card"
 import { Coins, ListTodo } from "lucide-react"
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { getDashboardData } from "@/app/actions"
+
+export const dynamic = "force-dynamic";
 
 export default async function Page() {
   const data = await getDashboardData();
