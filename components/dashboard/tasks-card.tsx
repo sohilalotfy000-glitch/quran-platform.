@@ -1,14 +1,17 @@
+
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle2, Circle } from "lucide-react"
+import { saveTasks, getTasks } from "@/app/actions"
+import { useUser } from "@clerk/nextjs"
 
 interface Task { id: string; title: string; description: string; xp: number; completed: boolean; lectureGroup: string; }
 
 const lectureTasksData: Task[] =[
   { id: "l1_1", lectureGroup: "المحاضرة الأولى", title: "مراجعة 18 سورة", description: "تدريب ومراجعة حفظ 18 سورة بالترتيب", xp: 5, completed: false },
-  { id: "l1_2", lectureGroup: "المحاضرة الأولى", title: "تذكر الصور", description: "3 محاولات على تذكر الصور على موقع ميموري ليج", xp: 5, completed: false },
+  { id: "l1_2", lectureGroup: "المحاضرة الأولى", title: "تذكر الصور", description: "3 محاولات على موقع ميموري ليج", xp: 5, completed: false },
   { id: "l1_3", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات", description: "تدبر 5 آيات", xp: 5, completed: false },
 
   { id: "l2_1", lectureGroup: "المحاضرة الثانية", title: "تحديد الهدف والمقاومة", description: "تحديد الهدف والمقاومة", xp: 5, completed: false },
@@ -28,12 +31,25 @@ const lectureTasksData: Task[] =[
 ];
 
 export function TasksCard({ type }: { type: "daily" | "lecture" }) {
-  const [tasks, setTasks] = useState(lectureTasksData);
+  const [tasks, setTasks] = useState<Task[]>(lectureTasksData);
+  const { isSignedIn } = useUser();
+
+  useEffect(() => {
+    if (isSignedIn) {
+      getTasks().then((saved) => {
+        if (saved) setTasks(saved as Task[]);
+      });
+    } else {
+      setTasks(lectureTasksData);
+    }
+  }, [isSignedIn]);
 
   if (type === "daily") return null;
 
   const toggleTask = (taskId: string) => {
-    setTasks(tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t));
+    const newTasks = tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t);
+    setTasks(newTasks);
+    if (isSignedIn) saveTasks(newTasks); // الحفظ في الخزنة فوراً
   };
 
   const completedCount = tasks.filter(t => t.completed).length;
