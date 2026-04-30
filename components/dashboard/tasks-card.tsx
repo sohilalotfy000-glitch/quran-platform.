@@ -3,8 +3,6 @@ import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { CheckCircle2, Circle } from "lucide-react"
-import { saveProgress } from "@/app/actions"
-import { useUser } from "@clerk/nextjs"
 
 interface Task { id: string; title: string; description: string; xp: number; completed: boolean; lectureGroup: string; }
 
@@ -28,31 +26,23 @@ const lectureTasksData: Task[] =[
 
 export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   const [tasks, setTasks] = useState<Task[]>(lectureTasksData);
-  const[mounted, setMounted] = useState(false);
-  const { isSignedIn } = useUser();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const saved = localStorage.getItem("quran-tasks-save-v3");
+    const saved = localStorage.getItem("quran-tasks-save-final");
     if (saved) setTasks(JSON.parse(saved));
   },[]);
+
+  useEffect(() => {
+    if (mounted) localStorage.setItem("quran-tasks-save-final", JSON.stringify(tasks));
+  },[tasks, mounted]);
 
   if (type === "daily" || !mounted) return null;
 
   const toggleTask = (taskId: string) => {
-    const newTasks = tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t);
-    setTasks(newTasks);
-    localStorage.setItem("quran-tasks-save-v3", JSON.stringify(newTasks));
-    
-    // إرسال النقط فوراً للوحة المتصدرين
-    if (isSignedIn) {
-      const totalXP = newTasks.filter(t => t.completed).reduce((acc, t) => acc + t.xp, 0);
-      saveProgress(newTasks, totalXP);
-    }
+    setTasks(tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t));
   };
-
-  const completedCount = tasks.filter(t => t.completed).length;
-  const totalXP = tasks.filter(t => t.completed).reduce((acc, t) => acc + t.xp, 0);
 
   const groupedTasks = tasks.reduce((acc, task) => {
     if (!acc[task.lectureGroup]) acc[task.lectureGroup] = [];
@@ -61,37 +51,27 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   }, {} as Record<string, Task[]>);
 
   return (
-    <Card className="border shadow-lg">
-      <CardHeader className="pb-4">
-        <div className="flex items-center justify-between flex-wrap gap-3">
-          <CardTitle className="text-lg font-bold">مهام المحاضرات</CardTitle>
-          <div className="flex gap-3">
-            <Badge variant="secondary">{completedCount}/{tasks.length} مكتمل</Badge>
-            <Badge className="bg-emerald-500/20 text-emerald-700">+{totalXP} نقطة</Badge>
-          </div>
-        </div>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-6">
-          {Object.entries(groupedTasks).map(([groupName, groupTasks]) => (
-            <div key={groupName} className="space-y-3">
-              <h3 className="font-bold text-emerald-600 border-b pb-2">{groupName}</h3>
-              {groupTasks.map((task) => (
-                <div key={task.id} className={`flex items-center gap-4 p-3 rounded-xl border cursor-pointer transition-colors ${task.completed ? "bg-emerald-50 border-emerald-200" : "bg-card hover:bg-slate-50"}`} onClick={() => toggleTask(task.id)}>
-                  <button className={task.completed ? "text-emerald-500" : "text-slate-300"}>
-                    {task.completed ? <CheckCircle2 className="size-5" /> : <Circle className="size-5" />}
-                  </button>
-                  <div className="flex-1 min-w-0">
-                    <h4 className={`font-medium text-sm mb-1 ${task.completed ? "line-through text-slate-500" : "text-slate-700"}`}>{task.title}</h4>
-                    <p className="text-xs text-slate-500 truncate">{task.description}</p>
-                  </div>
-                  <Badge variant="outline" className={task.completed ? "bg-emerald-500 text-white border-0" : "text-slate-400"}>+{task.xp}</Badge>
+    <div className="border shadow-lg bg-card rounded-xl p-6">
+      <h2 className="text-xl font-bold mb-6">مهام المحاضرات</h2>
+      <div className="space-y-6">
+        {Object.entries(groupedTasks).map(([groupName, groupTasks]) => (
+          <div key={groupName} className="space-y-3">
+            <h3 className="font-bold text-emerald-600 border-b pb-2">{groupName}</h3>
+            {groupTasks.map((task) => (
+              <div key={task.id} className={`flex items-center gap-4 p-3 rounded-xl border cursor-pointer ${task.completed ? "bg-emerald-50 border-emerald-200" : "hover:bg-slate-50"}`} onClick={() => toggleTask(task.id)}>
+                <button className={task.completed ? "text-emerald-500" : "text-slate-300"}>
+                  {task.completed ? <CheckCircle2 className="size-5" /> : <Circle className="size-5" />}
+                </button>
+                <div className="flex-1 min-w-0">
+                  <h4 className={`font-medium text-sm ${task.completed ? "line-through text-slate-500" : ""}`}>{task.title}</h4>
+                  <p className="text-xs text-slate-500">{task.description}</p>
                 </div>
-              ))}
-            </div>
-          ))}
-        </div>
-      </CardContent>
-    </Card>
+                <Badge variant="outline" className={task.completed ? "bg-emerald-500 text-white border-0" : ""}>+{task.xp}</Badge>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 }
