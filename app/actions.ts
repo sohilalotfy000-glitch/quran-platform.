@@ -21,5 +21,4 @@ export async function getDashboardData() {
     const allData = (await kv.hgetall("global_leaderboard")) || {};
     const leaderboard = Object.keys(allData).map(id => ({ id, ...(allData[id] as any) })).sort((a, b) => b.xp - a.xp).slice(0, 10);
     return { myTasks, leaderboard, currentUserId: userId };
-  } catch (e) { return { myTasks: null, leaderboard:
-
+  } catch (e) { return { myTasks: null, leaderboard:[], currentUserId: null }; } }
