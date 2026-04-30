@@ -1,5 +1,4 @@
 
-import { StatsGrid } from "@/components/dashboard/stats-grid"
 import { TasksCard } from "@/components/dashboard/tasks-card"
 import { Coins, ListTodo } from "lucide-react"
 import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
@@ -10,7 +9,9 @@ export default function Page() {
       <nav className="sticky top-0 z-50 w-full bg-[#0f172a] text-white shadow-md">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="bg-emerald-500 p-2 rounded-lg font-bold">قرآن</div>
+            <div className="bg-emerald-500 p-2 rounded-lg font-bold text-sm md:text-base">
+              برمج ذاكرتك بالقرآن
+            </div>
           </div>
           
           <div className="hidden md:flex items-center gap-6">
@@ -39,9 +40,8 @@ export default function Page() {
       </nav>
 
       <main className="container mx-auto p-4 md:p-8 space-y-6">
-        <StatsGrid />
-        {/* المهام هتاخد الشاشة كلها بشكل شيك */}
-        <div className="max-w-5xl mx-auto space-y-6">
+        {/* شيلنا المربعات والمهام هتاخد الشاشة بشكل مريح */}
+        <div className="max-w-5xl mx-auto space-y-6 mt-4">
           <TasksCard type="lecture" />
         </div>
       </main>
