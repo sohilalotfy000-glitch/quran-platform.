@@ -1,4 +1,3 @@
-
 "use server";
 // @ts-nocheck
 import { kv } from "@vercel/kv";
@@ -12,7 +11,6 @@ export async function saveProgress(tasks: any, totalXP: number) {
     if (!userId || !user) return;
     
     await kv.set(`tasks_${userId}`, tasks);
-    
     await kv.hset("global_leaderboard", {
       [userId]: { 
         name: user.firstName || "طالب", 
@@ -20,7 +18,6 @@ export async function saveProgress(tasks: any, totalXP: number) {
         xp: totalXP 
       }
     });
-    
     revalidatePath("/");
   } catch (e) {
     console.log("error");
@@ -28,6 +25,12 @@ export async function saveProgress(tasks: any, totalXP: number) {
 }
 
 export async function getDashboardData() {
+  const defaultUsers =[
+    { id: "fake1", name: "أحمد محمد", xp: 120, avatar: "" },
+    { id: "fake2", name: "فاطمة علي", xp: 95, avatar: "" },
+    { id: "fake3", name: "محمد خالد", xp: 80, avatar: "" }
+  ];
+
   try {
     const { userId } = await auth();
     let myTasks = null;
@@ -37,13 +40,22 @@ export async function getDashboardData() {
     
     const allData = (await kv.hgetall("global_leaderboard")) || {};
     
-    const leaderboard = Object.keys(allData).map(id => ({
+    let leaderboard = Object.keys(allData).map(id => ({
       id,
       ...(allData[id] as any)
-    })).sort((a, b) => b.xp - a.xp).slice(0, 10);
+    }));
+
+    // إضافة النماذج الأساسية عشان اللوحة متبقاش فاضية
+    defaultUsers.forEach(du => {
+      if (!leaderboard.find(u => u.id === du.id)) {
+        leaderboard.push(du);
+      }
+    });
+
+    leaderboard = leaderboard.sort((a, b) => b.xp - a.xp).slice(0, 10);
 
     return { myTasks, leaderboard, currentUserId: userId };
   } catch (e) {
-    return { myTasks: null, leaderboard:[], currentUserId: null };
+    return { myTasks: null, leaderboard: defaultUsers, currentUserId: null };
   }
 }
