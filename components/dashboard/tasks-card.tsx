@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 "use client"
 import { useState, useEffect, useTransition } from "react"
@@ -11,7 +10,6 @@ import { useRouter } from "next/navigation"
 
 interface Task { id: string; title: string; description: string; xp: number; completed: boolean; lectureGroup: string; }
 
-// تم تعديل نقاط "حفظ صفحة" إلى 10 نقاط بناءً على طلبك
 const lectureTasksData: Task[] =[
   { id: "l1_1", lectureGroup: "المحاضرة الأولى", title: "مراجعة 18 سورة", description: "تدريب ومراجعة حفظ 18 سورة", xp: 5, completed: false },
   { id: "l1_2", lectureGroup: "المحاضرة الأولى", title: "تذكر الصور", description: "3 محاولات ميموري ليج", xp: 5, completed: false },
@@ -30,20 +28,23 @@ const lectureTasksData: Task[] =[
   { id: "l4_5", lectureGroup: "المحاضرة الرابعة", title: "حفظ صفحة", description: "في اقل من 20 دقيقة", xp: 10, completed: false }
 ];
 
-export function TasksCard({ type }: { type: "daily" | "lecture" }) {
-  const [tasks, setTasks] = useState<Task[]>(lectureTasksData);
+export function TasksCard({ initialTasks }: { initialTasks?: any }) {
+  const [tasks, setTasks] = useState<Task[]>(initialTasks || lectureTasksData);
   const [mounted, setMounted] = useState(false);
-  const [isPending, startTransition] = useTransition();
+  const[isPending, startTransition] = useTransition();
   const { isSignedIn } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     setMounted(true);
-    const saved = localStorage.getItem("quran-tasks-v5");
-    if (saved) setTasks(JSON.parse(saved));
-  },[]);
+    // لو مفيش بيانات جاية من السيرفر، اقرا من المتصفح
+    if (!initialTasks) {
+      const saved = localStorage.getItem("quran-tasks-v5");
+      if (saved) setTasks(JSON.parse(saved));
+    }
+  }, [initialTasks]);
 
-  if (type === "daily" || !mounted) return null;
+  if (!mounted) return null;
 
   const toggleTask = async (taskId: string) => {
     const newTasks = tasks.map(t => t.id === taskId ? { ...t, completed: !t.completed } : t);
@@ -52,8 +53,6 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
     
     if (isSignedIn) {
       const totalXP = newTasks.filter(t => t.completed).reduce((acc, t) => acc + t.xp, 0);
-      
-      // هنا خلينا الكود يستنى الحفظ الأول في الداتا بيز وبعدين يحدث اللوحة
       await saveProgress(newTasks, totalXP);
       startTransition(() => {
         router.refresh();
