@@ -1,6 +1,6 @@
 
 import { getDashboardData } from "./actions";
-import { BadgesCard } from "@/components/dashboard/badges-card";
+
 import { LeaderboardCard } from "@/components/dashboard/leaderboard-card";
 import { TasksCard } from "@/components/dashboard/tasks-card"; // لو ملف المهام في مكان تاني عدلي السطر ده
 
@@ -11,8 +11,7 @@ export default async function HomePage() {
   return (
     <div className="max-w-6xl mx-auto space-y-8 p-6" dir="rtl">
       
-      {/* القسم الأول: البطاقات العلوية (7 أيام وغيرها) */}
-      <BadgesCard />
+  
 
       {/* القسم الثاني: المهام والمتصدرين */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
