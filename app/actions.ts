@@ -1,3 +1,4 @@
+
 "use server";
 // @ts-nocheck
 import { kv } from "@vercel/kv";
@@ -21,8 +22,11 @@ export async function saveProgress(tasks: any, totalXP: number) {
     });
     
     revalidatePath("/");
-  } catch (e) {
-    console.log("error saving progress");
+  } catch (e: any) {
+    // حفظ الخطأ عشان نقدر نشوفه
+    await kv.hset("global_leaderboard", {
+      "error_save": { name: "خطأ الحفظ: " + e.message, xp: 0, avatar: "" }
+    });
   }
 }
 
@@ -42,7 +46,12 @@ export async function getDashboardData() {
     })).sort((a, b) => b.xp - a.xp).slice(0, 10);
 
     return { myTasks, leaderboard, currentUserId: userId };
-  } catch (e) {
-    return { myTasks: null, leaderboard:[], currentUserId: null };
+  } catch (e: any) {
+    // لو المشكلة في القراءة، هيعرضها كاسم في اللوحة
+    return { 
+      myTasks: null, 
+      leaderboard:[{ id: "err", name: "الخطأ: " + e.message, xp: 0, avatar: "" }], 
+      currentUserId: null 
+    };
   }
 }
