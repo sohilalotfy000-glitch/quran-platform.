@@ -5,30 +5,36 @@ import { kv } from "@vercel/kv";
 import { revalidatePath } from "next/cache";
 
 export async function saveProgress(tasks: any, totalXP: number, uId: string, uName: string, uPic: string) {
+  if (!uId) return;
   try {
-    if (!uId) return; // لو مفيش بطاقة، متسجلش
+    // هنجيب القائمة القديمة
+    let board: any = (await kv.get("quran_board_final")) ||[];
+    if (!Array.isArray(board)) board =[];
     
-    // حفظ المهام
-    await kv.set(`tasks_${uId}`, tasks);
+    // هنمسح اسمك القديم لو موجود عشان نحدثه بالنقط الجديدة
+    board = board.filter((user: any) => user.id !== uId);
     
-    // حفظ المتصدرين بالاسم والصورة
-    await kv.hset("global_leaderboard", { 
-      [uId]: { name: uName || "بطل", avatar: uPic || "", xp: totalXP } 
-    });
+    // هنضيف اسمك ونقطك الجديدة
+    board.push({ id: uId, name: uName || "طالب", avatar: uPic || "", xp: totalXP });
     
-    // تحديث الشاشة فوراً
+    // هنحفظ القائمة كلها
+    await kv.set("quran_board_final", board);
     revalidatePath("/");
   } catch (e) {
-    console.log(e);
+    console.log("Error saving:", e);
   }
 }
 
 export async function getDashboardData() {
   try {
-    const allData = (await kv.hgetall("global_leaderboard")) || {};
-    const leaderboard = Object.keys(allData).map(id => ({ id, ...(allData[id] as any) })).sort((a, b) => b.xp - a.xp).slice(0, 10);
-    return { leaderboard };
+    let board: any = (await kv.get("quran_board_final")) ||[];
+    if (!Array.isArray(board)) board =[];
+    
+    // ترتيب من الكبير للصغير
+    board.sort((a: any, b: any) => b.xp - a.xp);
+    return { leaderboard: board.slice(0, 10) };
   } catch (e) {
-    return { leaderboard:[] };
-  }
-}
+    return { leaderboard:
+
+
+
