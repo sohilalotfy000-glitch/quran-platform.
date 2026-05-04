@@ -1,18 +1,20 @@
-import { TasksCard } from "@/components/dashboard/tasks-card"
+mport { TasksCard } from "@/components/dashboard/tasks-card"
 import { LeaderboardCard } from "@/components/dashboard/leaderboard-card"
 import { Coins } from "lucide-react"
 import { SignInButton, UserButton } from '@clerk/nextjs'
-import { getDashboardData } from "@/app/actions"
 import { auth } from "@clerk/nextjs/server"
 
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  const { leaderboard } = await getDashboardData();
   const { userId } = await auth();
 
-  const currentUserEntry = leaderboard.find((e: any) => e.id === userId);
-  const myTotalXp = currentUserEntry ? currentUserEntry.xp : 0;
+  // اللوحة المبدئية للإطلاق عشان البوست (جاهزة باسمك واسم هدى)
+  const initialLeaderboard =[
+    { id: "sohila_1", name: "Sohila Lotfy", avatar: "", xp: 150 },
+    { id: "huda_1", name: "هدى", avatar: "", xp: 120 },
+    { id: "student_1", name: "طالب مجتهد", avatar: "", xp: 50 }
+  ];
 
   return (
     <div className="min-h-screen bg-slate-50" dir="rtl">
@@ -24,7 +26,7 @@ export default async function Page() {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-3 bg-slate-800 p-2 rounded-full px-4 border border-slate-700">
               <div className="flex items-center gap-1 text-yellow-400 font-bold">
-                <span>{myTotalXp}</span> <Coins className="size-4" />
+                <span>النقاط</span> <Coins className="size-4" />
               </div>
             </div>
             {!userId ? (
@@ -39,7 +41,7 @@ export default async function Page() {
       <main className="container mx-auto p-4 md:p-8 space-y-6">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
           <div className="lg:col-span-2 space-y-6"><TasksCard type="lecture" /></div>
-          <div className="space-y-6"><LeaderboardCard entries={leaderboard} currentUserId={userId || ""} /></div>
+          <div className="space-y-6"><LeaderboardCard entries={initialLeaderboard} currentUserId={userId || ""} /></div>
         </div>
       </main>
     </div>
