@@ -3,7 +3,7 @@
 import { TasksCard } from "@/components/dashboard/tasks-card"
 import { LeaderboardCard } from "@/components/dashboard/leaderboard-card"
 import { Coins } from "lucide-react"
-import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { SignInButton, UserButton } from '@clerk/nextjs'
 import { getDashboardData } from "@/app/actions"
 import { auth } from "@clerk/nextjs/server"
 
@@ -29,16 +29,15 @@ export default async function Page() {
                 <span>{myTotalXp}</span> <Coins className="size-4" />
               </div>
             </div>
-            <SignedOut>
+            {!userId ? (
               <SignInButton mode="modal">
                 <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-1.5 rounded-lg font-bold text-sm">
                   تسجيل الدخول
                 </button>
               </SignInButton>
-            </SignedOut>
-            <SignedIn>
+            ) : (
               <UserButton afterSignOutUrl="/" />
-            </SignedIn>
+            )}
           </div>
         </div>
       </nav>
@@ -56,3 +55,4 @@ export default async function Page() {
     </div>
   )
 }
+
