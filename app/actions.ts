@@ -2,24 +2,21 @@
 "use server";
 // @ts-nocheck
 import { kv } from "@vercel/kv";
-import { auth, currentUser } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 
-export async function saveProgress(tasks: any, totalXP: number) {
+export async function saveProgress(tasks: any, totalXP: number, uId: string, uName: string, uPic: string) {
   try {
-    const { userId } = await auth();
-    const user = await currentUser();
-    if (!userId || !user) return;
+    if (!uId) return; // لو مفيش بطاقة، متسجلش
     
-    await kv.set(`tasks_${userId}`, tasks);
-    await kv.hset("global_leaderboard", {
-      [userId]: { 
-        name: user.firstName || "طالب", 
-        avatar: user.imageUrl || "", 
-        xp: totalXP 
-      }
+    // حفظ المهام
+    await kv.set(`tasks_${uId}`, tasks);
+    
+    // حفظ المتصدرين بالاسم والصورة
+    await kv.hset("global_leaderboard", { 
+      [uId]: { name: uName || "بطل", avatar: uPic || "", xp: totalXP } 
     });
     
+    // تحديث الشاشة فوراً
     revalidatePath("/");
   } catch (e) {
     console.log(e);
@@ -29,11 +26,7 @@ export async function saveProgress(tasks: any, totalXP: number) {
 export async function getDashboardData() {
   try {
     const allData = (await kv.hgetall("global_leaderboard")) || {};
-    const leaderboard = Object.keys(allData).map(id => ({
-      id,
-      ...(allData[id] as any)
-    })).sort((a, b) => b.xp - a.xp).slice(0, 10);
-
+    const leaderboard = Object.keys(allData).map(id => ({ id, ...(allData[id] as any) })).sort((a, b) => b.xp - a.xp).slice(0, 10);
     return { leaderboard };
   } catch (e) {
     return { leaderboard:[] };
