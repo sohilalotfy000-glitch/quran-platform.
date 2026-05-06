@@ -1,4 +1,3 @@
-
 // @ts-nocheck
 "use client"
 import { useState, useEffect } from "react"
@@ -16,11 +15,11 @@ const lectureTasksData =[
   { id: "l1_tue", lectureGroup: "المحاضرة الأولى", title: "تذكر الصور (الثلاثاء)", description: "3 محاولات الصور يوم الثلاثاء", xp: 5, completed: false },
   { id: "l1_3", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات", description: "تدبر 5 آيات", xp: 5, completed: false },
 
-  // المحاضرة الثانية
-  { id: "l2_1", lectureGroup: "المحاضرة الثانية", title: "تحديد الهدف", description: "تحديد الهدف والمقاومة", xp: 5, completed: false },
-  { id: "l2_2", lectureGroup: "المحاضرة الثانية", title: "الاستدعاء النشط", description: "التدرب على الاستدعاء", xp: 5, completed: false },
-  { id: "l2_3", lectureGroup: "المحاضرة الثانية", title: "تمهيد الصفحة", description: "10 دقايق", xp: 5, completed: false },
-  { id: "l2_4", lectureGroup: "المحاضرة الثانية", title: "المؤقت الحلزوني", description: "مراقبة الوقت", xp: 5, completed: false },
+  // المحاضرة الثانية (المهام الجديدة)
+  { id: "l2_wed", lectureGroup: "المحاضرة الثانية", title: "تذكر الصور (الأربعاء)", description: "3 محاولات على موقع ميموري ليج", xp: 5, completed: false },
+  { id: "l2_listen", lectureGroup: "المحاضرة الثانية", title: "سماع + تفسير + تمهيد", description: "في 10 دقائق", xp: 5, completed: false },
+  { id: "l2_memo", lectureGroup: "المحاضرة الثانية", title: "حفظ صفحة في القرآن", description: "في نصف ساعة", xp: 5, completed: false },
+  { id: "l2_goal", lectureGroup: "المحاضرة الثانية", title: "تحديد الهدف", description: "تحديد الهدف وإرساله", xp: 5, completed: false },
 
   // المحاضرة الثالثة
   { id: "l3_1", lectureGroup: "المحاضرة الثالثة", title: "حفظ في نصف ساعة", description: "حفظ الصفحة", xp: 5, completed: false },
@@ -42,8 +41,8 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
 
   useEffect(() => {
     setMounted(true);
-    // غيرنا اسم الذاكرة عشان يقرأ المهام الجديدة وميلخبطش
-    const saved = localStorage.getItem("quran-tasks-final-v7");
+    // غيرنا اسم الذاكرة لـ v8 عشان المشتركين يشوفوا التحديث فوراً
+    const saved = localStorage.getItem("quran-tasks-final-v8");
     if (saved) setTasks(JSON.parse(saved));
   },[]);
 
@@ -52,7 +51,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   const toggleTask = async (taskId: string) => {
     const newTasks = tasks.map((t: any) => t.id === taskId ? { ...t, completed: !t.completed } : t);
     setTasks(newTasks);
-    localStorage.setItem("quran-tasks-final-v7", JSON.stringify(newTasks));
+    localStorage.setItem("quran-tasks-final-v8", JSON.stringify(newTasks));
     
     if (isSignedIn && user) {
       const totalXP = newTasks.filter((t: any) => t.completed).reduce((acc: number, t: any) => acc + t.xp, 0);
