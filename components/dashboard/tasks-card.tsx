@@ -21,31 +21,33 @@ const lectureTasksData =[
   { id: "l2_memo", lectureGroup: "المحاضرة الثانية", title: "حفظ صفحة في القرآن", description: "في نصف ساعة", xp: 5, completed: false },
   { id: "l2_goal", lectureGroup: "المحاضرة الثانية", title: "تحديد الهدف", description: "تحديد الهدف وإرساله", xp: 5, completed: false },
 
-  // المحاضرة الثالثة
-  { id: "l3_1", lectureGroup: "المحاضرة الثالثة", title: "حفظ في نصف ساعة", description: "حفظ الصفحة", xp: 5, completed: false },
-  { id: "l3_2", lectureGroup: "المحاضرة الثالثة", title: "تهيئة وسماع", description: "7 دقائق", xp: 5, completed: false },
-  { id: "l3_3", lectureGroup: "المحاضرة الثالثة", title: "تمارين التركيز", description: "بومودورو وعد تنازلي", xp: 5, completed: false },
+  // المحاضرة الثالثة (المهام الجديدة)
+  { id: "l3_1", lectureGroup: "المحاضرة الثالثة", title: "المؤقت الحلزوني", description: "طباعة وتنفيذ المؤقت الحلزوني", xp: 5, completed: false },
+  { id: "l3_2", lectureGroup: "المحاضرة الثالثة", title: "حفظ الصفحة (الخميس)", description: "تهيئة الصفحة 7دقايق وحفظ الصفحة في نصف ساعة", xp: 5, completed: false },
+  { id: "l3_3", lectureGroup: "المحاضرة الثالثة", title: "حفظ الصفحة (الجمعة)", description: "تهيئة الصفحة 7دقايق وحفظ الصفحة في نصف ساعة", xp: 5, completed: false },
+  { id: "l3_4", lectureGroup: "المحاضرة الثالثة", title: "حفظ الصفحة (السبت)", description: "تهيئة الصفحة 7دقايق وحفظ الصفحة في اقل من نصف ساعة", xp: 5, completed: false },
+  { id: "l3_5", lectureGroup: "المحاضرة الثالثة", title: "مراجعة أسماء السور", description: "مراجعة 39 اسماء سور القرآن بالترتيب", xp: 5, completed: false },
+  { id: "l3_6", lectureGroup: "المحاضرة الثالثة", title: "ميموري ليج (الخميس)", description: "3 محاولات ميموري ليج يوم الخميس", xp: 5, completed: false },
+  { id: "l3_7", lectureGroup: "المحاضرة الثالثة", title: "ميموري ليج (الجمعة)", description: "3 محاولات ميموري ليج يوم الجمعة", xp: 5, completed: false },
+  { id: "l3_8", lectureGroup: "المحاضرة الثالثة", title: "ميموري ليج (السبت)", description: "3 محاولات ميموري ليج يوم السبت", xp: 5, completed: false },
 
-  // المحاضرة الرابعة (المهام الجديدة)
-  { id: "l4_1", lectureGroup: "المحاضرة الرابعة", title: "المؤقت الحلزوني", description: "طباعة وتنفيذ المؤقت الحلزوني", xp: 5, completed: false },
-  { id: "l4_2", lectureGroup: "المحاضرة الرابعة", title: "حفظ الصفحة (الخميس)", description: "تهيئة الصفحة 7دقايق وحفظ الصفحة في نصف ساعة", xp: 5, completed: false },
-  { id: "l4_3", lectureGroup: "المحاضرة الرابعة", title: "حفظ الصفحة (الجمعة)", description: "تهيئة الصفحة 7دقايق وحفظ الصفحة في نصف ساعة", xp: 5, completed: false },
-  { id: "l4_4", lectureGroup: "المحاضرة الرابعة", title: "حفظ الصفحة (السبت)", description: "تهيئة الصفحة 7دقايق وحفظ الصفحة في اقل من نصف ساعة", xp: 5, completed: false },
-  { id: "l4_5", lectureGroup: "المحاضرة الرابعة", title: "مراجعة أسماء السور", description: "مراجعة 39 اسماء سور القرآن بالترتيب", xp: 5, completed: false },
-  { id: "l4_6", lectureGroup: "المحاضرة الرابعة", title: "ميموري ليج (الخميس)", description: "3 محاولات ميموري ليج يوم الخميس", xp: 5, completed: false },
-  { id: "l4_7", lectureGroup: "المحاضرة الرابعة", title: "ميموري ليج (الجمعة)", description: "3 محاولات ميموري ليج يوم الجمعة", xp: 5, completed: false },
-  { id: "l4_8", lectureGroup: "المحاضرة الرابعة", title: "ميموري ليج (السبت)", description: "3 محاولات ميموري ليج يوم السبت", xp: 5, completed: false }
+  // المحاضرة الرابعة (رجعناها زي ما كانت)
+  { id: "l4_1", lectureGroup: "المحاضرة الرابعة", title: "قراءة سريعة", description: "4 مرات", xp: 5, completed: false },
+  { id: "l4_2", lectureGroup: "المحاضرة الرابعة", title: "قراءة تصويرية", description: "7 مرات", xp: 5, completed: false },
+  { id: "l4_3", lectureGroup: "المحاضرة الرابعة", title: "تهيئة الصفحة", description: "تهيئة", xp: 5, completed: false },
+  { id: "l4_4", lectureGroup: "المحاضرة الرابعة", title: "تمارين العين", description: "تمارين", xp: 5, completed: false },
+  { id: "l4_5", lectureGroup: "المحاضرة الرابعة", title: "حفظ صفحة", description: "في اقل من 20 دقيقة", xp: 5, completed: false }
 ];
 
 export function TasksCard({ type }: { type: "daily" | "lecture" }) {
-  const [tasks, setTasks] = useState(lectureTasksData);
+  const[tasks, setTasks] = useState(lectureTasksData);
   const [mounted, setMounted] = useState(false);
   const { user, isSignedIn } = useUser();
 
   useEffect(() => {
     setMounted(true);
-    // حدثنا اسم الذاكرة لـ v9 عشان الكل يشوف الجديد فوراً
-    const saved = localStorage.getItem("quran-tasks-final-v9");
+    // غيرنا الذاكرة لـ v10
+    const saved = localStorage.getItem("quran-tasks-final-v10");
     if (saved) setTasks(JSON.parse(saved));
   },[]);
 
@@ -54,7 +56,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   const toggleTask = async (taskId: string) => {
     const newTasks = tasks.map((t: any) => t.id === taskId ? { ...t, completed: !t.completed } : t);
     setTasks(newTasks);
-    localStorage.setItem("quran-tasks-final-v9", JSON.stringify(newTasks));
+    localStorage.setItem("quran-tasks-final-v10", JSON.stringify(newTasks));
     
     if (isSignedIn && user) {
       const totalXP = newTasks.filter((t: any) => t.completed).reduce((acc: number, t: any) => acc + t.xp, 0);
