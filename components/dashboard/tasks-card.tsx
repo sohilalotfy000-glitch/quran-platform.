@@ -45,7 +45,7 @@ const lectureTasksData =[
   // المحاضرة الخامسة (المهام الجديدة)
   { id: "l5_1", lectureGroup: "المحاضرة الخامسة", title: "تمارين العين", description: "تمارين العين", xp: 5, completed: false },
   { id: "l5_2", lectureGroup: "المحاضرة الخامسة", title: "قراءة سريعة (4 مرات)", description: "اربع مرات قراءة سريعة لمدة 10 دقائق", xp: 5, completed: false },
-  { id: "l5_3", lectureGroup: "المحاضرة الخامسة", title: "قراءة سريعة (7 مرات)", description: "سبع مرات قراءة سريعة لمدة 10 دقائق", xp: 5, completed: false },
+  { id: "l5_3", lectureGroup: "المحاضرة الخامسة", title: "قراءة تصويرية (7 مرات)", description: "سبع مرات قراءة تصويرية لمدة 10 دقائق", xp: 5, completed: false },
   { id: "l5_4", lectureGroup: "المحاضرة الخامسة", title: "سماع وتهيئة", description: "سماع شيخ تفسير وتهيئة", xp: 5, completed: false },
   { id: "l5_5", lectureGroup: "المحاضرة الخامسة", title: "حفظ صفحة القرآن", description: "حفظ صفحة القرآن في 20 دقيقة", xp: 5, completed: false },
   { id: "l5_6", lectureGroup: "المحاضرة الخامسة", title: "مراجعة الشهور", description: "مراجعة الشهور الهجرية", xp: 5, completed: false }
