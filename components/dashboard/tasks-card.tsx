@@ -31,7 +31,7 @@ const lectureTasksData =[
   { id: "l3_7", lectureGroup: "المحاضرة الثالثة", title: "ميموري ليج (الجمعة)", description: "3 محاولات ميموري ليج يوم الجمعة", xp: 5, completed: false },
   { id: "l3_8", lectureGroup: "المحاضرة الثالثة", title: "ميموري ليج (السبت)", description: "3 محاولات ميموري ليج يوم السبت", xp: 5, completed: false },
 
-  // المحاضرة الرابعة (المهام الجديدة)
+  // المحاضرة الرابعة
   { id: "l4_eye_sun", lectureGroup: "المحاضرة الرابعة", title: "تمارين العين (الأحد)", description: "تمارين العين 5 دقائق يوم الأحد", xp: 5, completed: false },
   { id: "l4_eye_mon", lectureGroup: "المحاضرة الرابعة", title: "تمارين العين (الإثنين)", description: "تمارين العين 5 دقائق يوم الإثنين", xp: 5, completed: false },
   { id: "l4_eye_tue", lectureGroup: "المحاضرة الرابعة", title: "تمارين العين (الثلاثاء)", description: "تمارين العين 5 دقائق يوم الثلاثاء", xp: 5, completed: false },
@@ -40,7 +40,15 @@ const lectureTasksData =[
   { id: "l4_read_tue", lectureGroup: "المحاضرة الرابعة", title: "قراءة سريعة (الثلاثاء)", description: "عشر دقائق قراءة سريعة يوم الثلاثاء", xp: 5, completed: false },
   { id: "l4_memo_sun", lectureGroup: "المحاضرة الرابعة", title: "تهيئة وحفظ (الأحد)", description: "تهيئة 5 دقايق وحفظ الصفحة في نصف ساعة", xp: 5, completed: false },
   { id: "l4_memo_mon", lectureGroup: "المحاضرة الرابعة", title: "تهيئة وحفظ (الإثنين)", description: "تهيئة 5 دقايق وحفظ الصفحة في نصف ساعة", xp: 5, completed: false },
-  { id: "l4_memo_tue", lectureGroup: "المحاضرة الرابعة", title: "تهيئة وحفظ (الثلاثاء)", description: "تهيئة 5 دقايق وحفظ الصفحة في نصف ساعة", xp: 5, completed: false }
+  { id: "l4_memo_tue", lectureGroup: "المحاضرة الرابعة", title: "تهيئة وحفظ (الثلاثاء)", description: "تهيئة 5 دقايق وحفظ الصفحة في نصف ساعة", xp: 5, completed: false },
+
+  // المحاضرة الخامسة (المهام الجديدة)
+  { id: "l5_1", lectureGroup: "المحاضرة الخامسة", title: "تمارين العين", description: "تمارين العين", xp: 5, completed: false },
+  { id: "l5_2", lectureGroup: "المحاضرة الخامسة", title: "قراءة سريعة (4 مرات)", description: "اربع مرات قراءة سريعة لمدة 10 دقائق", xp: 5, completed: false },
+  { id: "l5_3", lectureGroup: "المحاضرة الخامسة", title: "قراءة سريعة (7 مرات)", description: "سبع مرات قراءة سريعة لمدة 10 دقائق", xp: 5, completed: false },
+  { id: "l5_4", lectureGroup: "المحاضرة الخامسة", title: "سماع وتهيئة", description: "سماع شيخ تفسير وتهيئة", xp: 5, completed: false },
+  { id: "l5_5", lectureGroup: "المحاضرة الخامسة", title: "حفظ صفحة القرآن", description: "حفظ صفحة القرآن في 20 دقيقة", xp: 5, completed: false },
+  { id: "l5_6", lectureGroup: "المحاضرة الخامسة", title: "مراجعة الشهور", description: "مراجعة الشهور الهجرية", xp: 5, completed: false }
 ];
 
 export function TasksCard({ type }: { type: "daily" | "lecture" }) {
@@ -50,8 +58,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
 
   useEffect(() => {
     setMounted(true);
-    // حدثنا اسم الذاكرة لـ v11 عشان الكل يشوف الجديد فوراً
-    const saved = localStorage.getItem("quran-tasks-final-v11");
+    const saved = localStorage.getItem("quran-tasks-final-v12");
     if (saved) setTasks(JSON.parse(saved));
   },[]);
 
@@ -60,7 +67,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   const toggleTask = async (taskId: string) => {
     const newTasks = tasks.map((t: any) => t.id === taskId ? { ...t, completed: !t.completed } : t);
     setTasks(newTasks);
-    localStorage.setItem("quran-tasks-final-v11", JSON.stringify(newTasks));
+    localStorage.setItem("quran-tasks-final-v12", JSON.stringify(newTasks));
     
     if (isSignedIn && user) {
       const totalXP = newTasks.filter((t: any) => t.completed).reduce((acc: number, t: any) => acc + t.xp, 0);
@@ -72,7 +79,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   const totalXP = tasks.filter((t: any) => t.completed).reduce((acc: number, t: any) => acc + t.xp, 0);
 
   const groupedTasks = tasks.reduce((acc: any, task: any) => {
-    if (!acc[task.lectureGroup]) acc[task.lectureGroup] = [];
+    if (!acc[task.lectureGroup]) acc[task.lectureGroup] =[];
     acc[task.lectureGroup].push(task);
     return acc;
   }, {});
