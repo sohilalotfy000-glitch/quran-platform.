@@ -50,14 +50,21 @@ const lectureTasksData =[
   { id: "l5_5", lectureGroup: "المحاضرة الخامسة", title: "حفظ صفحة القرآن", description: "حفظ صفحة القرآن في 20 دقيقة", xp: 5, completed: false },
   { id: "l5_6", lectureGroup: "المحاضرة الخامسة", title: "مراجعة الشهور", description: "مراجعة الشهور الهجرية", xp: 5, completed: false },
 
-  // المحاضرة السادسة (المهام الجديدة)
+  // المحاضرة السادسة
   { id: "l6_1", lectureGroup: "المحاضرة السادسة", title: "قراءة سريعة (4 مرات)", description: "اربع مرات قراءة سريعة لمدة عشر دقائق", xp: 5, completed: false },
   { id: "l6_2", lectureGroup: "المحاضرة السادسة", title: "قراءة تصويرية (7 مرات)", description: "سبع مرات قراءة تصويرية لمدة عشر دقائق", xp: 5, completed: false },
   { id: "l6_3", lectureGroup: "المحاضرة السادسة", title: "خريطة ذهنية (الخميس)", description: "خريطة ذهنية لوجه يوم الخميس", xp: 5, completed: false },
   { id: "l6_4", lectureGroup: "المحاضرة السادسة", title: "خريطة ذهنية (الجمعة)", description: "خريطة ذهنية لوجه يوم الجمعة", xp: 5, completed: false },
   { id: "l6_5", lectureGroup: "المحاضرة السادسة", title: "حفظ وجه (الخميس)", description: "حفظ وجه في 20 دقيقة يوم الخميس", xp: 5, completed: false },
   { id: "l6_6", lectureGroup: "المحاضرة السادسة", title: "حفظ وجه (الجمعة)", description: "حفظ وجه 20 دقيقة يوم الجمعة", xp: 5, completed: false },
-  { id: "l6_7", lectureGroup: "المحاضرة السادسة", title: "حفظ وجه (السبت)", description: "حفظ وجه 20 دقيقة يوم السبت", xp: 5, completed: false }
+  { id: "l6_7", lectureGroup: "المحاضرة السادسة", title: "حفظ وجه (السبت)", description: "حفظ وجه 20 دقيقة يوم السبت", xp: 5, completed: false },
+
+  // المحاضرة السابعة (المهام الجديدة)
+  { id: "l7_1", lectureGroup: "المحاضرة السابعة", title: "قراءة تصويرية (7 مرات)", description: "قراءة تصويرية 7 مرات لمدة 10 دقائق", xp: 5, completed: false },
+  { id: "l7_2", lectureGroup: "المحاضرة السابعة", title: "حفظ وجه (الإثنين)", description: "حفظ الوجه في اقل من 20 دقيقة يوم الاتنين", xp: 5, completed: false },
+  { id: "l7_3", lectureGroup: "المحاضرة السابعة", title: "حفظ وجه (الثلاثاء)", description: "حفظ الوجه في 20 دقيقة يوم الثلاث", xp: 5, completed: false },
+  { id: "l7_4", lectureGroup: "المحاضرة السابعة", title: "قصر الذاكرة (100 مكان)", description: "عمل قصر ذاكرة خاص بكم متكون من 100 مكان", xp: 5, completed: false },
+  { id: "l7_5", lectureGroup: "المحاضرة السابعة", title: "تطبيق قصر الذاكرة", description: "تطبيق قصر الذاكرة على الوجه المحفوظ", xp: 5, completed: false }
 ];
 
 export function TasksCard({ type }: { type: "daily" | "lecture" }) {
@@ -67,8 +74,8 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
 
   useEffect(() => {
     setMounted(true);
-    // حدثنا اسم الذاكرة لـ v13 عشان الكل يشوف الجديد فوراً
-    const saved = localStorage.getItem("quran-tasks-final-v13");
+    // حدثنا اسم الذاكرة لـ v14 عشان الكل يشوف الجديد فوراً
+    const saved = localStorage.getItem("quran-tasks-final-v14");
     if (saved) setTasks(JSON.parse(saved));
   },[]);
 
@@ -77,7 +84,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   const toggleTask = async (taskId: string) => {
     const newTasks = tasks.map((t: any) => t.id === taskId ? { ...t, completed: !t.completed } : t);
     setTasks(newTasks);
-    localStorage.setItem("quran-tasks-final-v13", JSON.stringify(newTasks));
+    localStorage.setItem("quran-tasks-final-v14", JSON.stringify(newTasks));
     
     if (isSignedIn && user) {
       const totalXP = newTasks.filter((t: any) => t.completed).reduce((acc: number, t: any) => acc + t.xp, 0);
