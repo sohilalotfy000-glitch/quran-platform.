@@ -72,9 +72,15 @@ const lectureTasksData =[
   { id: "l8_3", lectureGroup: "المحاضرة الثامنة", title: "تدبر 3 آيات (جورنال)", description: "تدبر 3 ايات بطريقة القرآن جورنال", xp: 5, completed: false },
   { id: "l8_4", lectureGroup: "المحاضرة الثامنة", title: "حفظ صفحة", description: "حفظ صفحة من القرآن في ربع ساعة", xp: 5, completed: false },
 
-  // المحاضرة التاسعة (المهام الجديدة)
+  // المحاضرة التاسعة
   { id: "l9_1", lectureGroup: "المحاضرة التاسعة", title: "تنزيل تطبيق Anki", description: "تنزيل ابليكشن anki", xp: 5, completed: false },
-  { id: "l9_2", lectureGroup: "المحاضرة التاسعة", title: "إضافة المراجعات", description: "اضافة المراجعات وارسال سكرين شوت على الجروب", xp: 5, completed: false }
+  { id: "l9_2", lectureGroup: "المحاضرة التاسعة", title: "إضافة المراجعات", description: "اضافة المراجعات وارسال سكرين شوت على الجروب", xp: 5, completed: false },
+
+  // المحاضرة العاشرة (المهام الجديدة)
+  { id: "l10_1", lectureGroup: "المحاضرة العاشرة", title: "قراءة سريعة (4 مرات)", description: "4 مرات قراءة سريعة 10 دقائق", xp: 5, completed: false },
+  { id: "l10_2", lectureGroup: "المحاضرة العاشرة", title: "قراءة تصويرية (7 مرات)", description: "7 مرات قراءة تصويرية كل يوم 10 دقائق", xp: 5, completed: false },
+  { id: "l10_3", lectureGroup: "المحاضرة العاشرة", title: "سماع وتفسير وتهيئة", description: "اسمع الصفحة من شيخ + التفسير + التهيئة", xp: 5, completed: false },
+  { id: "l10_4", lectureGroup: "المحاضرة العاشرة", title: "حفظ صفحة", description: "حفظ صفحة من القرآن في 10 دقائق", xp: 5, completed: false }
 ];
 
 export function TasksCard({ type }: { type: "daily" | "lecture" }) {
@@ -84,8 +90,8 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
 
   useEffect(() => {
     setMounted(true);
-    // حدثنا اسم الذاكرة لـ v16 عشان الكل يشوف الجديد فوراً
-    const saved = localStorage.getItem("quran-tasks-final-v16");
+    // حدثنا اسم الذاكرة لـ v17 عشان الكل يشوف الجديد فوراً
+    const saved = localStorage.getItem("quran-tasks-final-v17");
     if (saved) setTasks(JSON.parse(saved));
   },[]);
 
@@ -94,7 +100,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   const toggleTask = async (taskId: string) => {
     const newTasks = tasks.map((t: any) => t.id === taskId ? { ...t, completed: !t.completed } : t);
     setTasks(newTasks);
-    localStorage.setItem("quran-tasks-final-v16", JSON.stringify(newTasks));
+    localStorage.setItem("quran-tasks-final-v17", JSON.stringify(newTasks));
     
     if (isSignedIn && user) {
       const totalXP = newTasks.filter((t: any) => t.completed).reduce((acc: number, t: any) => acc + t.xp, 0);
