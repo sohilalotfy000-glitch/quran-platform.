@@ -2,19 +2,13 @@
 // @ts-nocheck
 import { TasksCard } from "@/components/dashboard/tasks-card"
 import { LeaderboardCard } from "@/components/dashboard/leaderboard-card"
-import { Coins } from "lucide-react"
-import { SignInButton, UserButton } from '@clerk/nextjs'
+import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 import { getDashboardData } from "@/app/actions"
-import { auth } from "@clerk/nextjs/server"
 
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
   const { leaderboard } = await getDashboardData();
-  const { userId } = await auth();
-
-  const currentUserEntry = leaderboard.find((e: any) => e.id === userId);
-  const myTotalXp = currentUserEntry ? currentUserEntry.xp : 0;
 
   return (
     <div className="min-h-screen bg-slate-50" dir="rtl">
@@ -24,20 +18,16 @@ export default async function Page() {
             برمج ذاكرتك بالقرآن
           </div>
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3 bg-slate-800 p-2 rounded-full px-4 border border-slate-700">
-              <div className="flex items-center gap-1 text-yellow-400 font-bold">
-                <span>{myTotalXp}</span> <Coins className="size-4" />
-              </div>
-            </div>
-            {!userId ? (
+            <SignedOut>
               <SignInButton mode="modal">
                 <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-1.5 rounded-lg font-bold text-sm">
                   تسجيل الدخول
                 </button>
               </SignInButton>
-            ) : (
+            </SignedOut>
+            <SignedIn>
               <UserButton afterSignOutUrl="/" />
-            )}
+            </SignedIn>
           </div>
         </div>
       </nav>
@@ -48,11 +38,10 @@ export default async function Page() {
             <TasksCard type="lecture" />
           </div>
           <div className="space-y-6">
-            <LeaderboardCard entries={leaderboard} currentUserId={userId || ""} />
+            <LeaderboardCard entries={leaderboard} />
           </div>
         </div>
       </main>
     </div>
   )
 }
-
