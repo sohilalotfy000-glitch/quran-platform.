@@ -1,14 +1,15 @@
-
 // @ts-nocheck
 import { TasksCard } from "@/components/dashboard/tasks-card"
 import { LeaderboardCard } from "@/components/dashboard/leaderboard-card"
-import { SignInButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
+import { SignInButton, UserButton } from '@clerk/nextjs'
 import { getDashboardData } from "@/app/actions"
+import { auth } from "@clerk/nextjs/server"
 
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
   const { leaderboard } = await getDashboardData();
+  const { userId } = await auth();
 
   return (
     <div className="min-h-screen bg-slate-50" dir="rtl">
@@ -18,16 +19,15 @@ export default async function Page() {
             برمج ذاكرتك بالقرآن
           </div>
           <div className="flex items-center gap-4">
-            <SignedOut>
+            {userId ? (
+              <UserButton afterSignOutUrl="/" />
+            ) : (
               <SignInButton mode="modal">
                 <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-4 py-1.5 rounded-lg font-bold text-sm">
                   تسجيل الدخول
                 </button>
               </SignInButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton afterSignOutUrl="/" />
-            </SignedIn>
+            )}
           </div>
         </div>
       </nav>
@@ -38,7 +38,7 @@ export default async function Page() {
             <TasksCard type="lecture" />
           </div>
           <div className="space-y-6">
-            <LeaderboardCard entries={leaderboard} />
+            <LeaderboardCard entries={leaderboard} currentUserId={userId || ""} />
           </div>
         </div>
       </main>
