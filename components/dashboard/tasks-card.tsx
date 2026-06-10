@@ -1,5 +1,5 @@
-// @ts-nocheck
 "use client"
+// @ts-nocheck
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -82,7 +82,7 @@ const lectureTasksData =[
   { id: "l10_3", lectureGroup: "المحاضرة العاشرة", title: "سماع وتفسير وتهيئة", description: "اسمع الصفحة من شيخ + التفسير + التهيئة", xp: 5, completed: false },
   { id: "l10_4", lectureGroup: "المحاضرة العاشرة", title: "حفظ صفحة", description: "حفظ صفحة من القرآن في 10 دقائق", xp: 5, completed: false },
 
-  // المحاضرة الحادية عشر (المهام الجديدة)
+  // المحاضرة الحادية عشر
   { id: "l11_1", lectureGroup: "المحاضرة الحادية عشر", title: "تمارين التنفس", description: "تمارين التنفس 5 دقايق", xp: 5, completed: false },
   { id: "l11_2", lectureGroup: "المحاضرة الحادية عشر", title: "قراءة سريعة (4 مرات)", description: "4 مرات قراءة سريعة 10 دقائق", xp: 5, completed: false },
   { id: "l11_3", lectureGroup: "المحاضرة الحادية عشر", title: "قراءة تصويرية (7 مرات)", description: "7 مرات قراءة تصويرية كل يوم 10 دقائق", xp: 5, completed: false },
@@ -97,8 +97,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
 
   useEffect(() => {
     setMounted(true);
-    // حدثنا اسم الذاكرة لـ v18 عشان الكل يشوف الجديد فوراً
-    const saved = localStorage.getItem("quran-tasks-final-v18");
+    const saved = localStorage.getItem("quran-tasks-batch2-v1");
     if (saved) setTasks(JSON.parse(saved));
   },[]);
 
@@ -107,7 +106,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
   const toggleTask = async (taskId: string) => {
     const newTasks = tasks.map((t: any) => t.id === taskId ? { ...t, completed: !t.completed } : t);
     setTasks(newTasks);
-    localStorage.setItem("quran-tasks-final-v18", JSON.stringify(newTasks));
+    localStorage.setItem("quran-tasks-batch2-v1", JSON.stringify(newTasks));
     
     if (isSignedIn && user) {
       const totalXP = newTasks.filter((t: any) => t.completed).reduce((acc: number, t: any) => acc + t.xp, 0);
