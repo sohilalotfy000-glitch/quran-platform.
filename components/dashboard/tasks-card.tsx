@@ -17,7 +17,6 @@ const lectureTasksData =[
   { id: "l1_tad_thu", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات (الخميس)", description: "تدبر 5 ايات يوم الخميس", xp: 5, completed: false },
   { id: "l1_tad_fri", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات (الجمعة)", description: "تدبر 5 ايات يوم الجمعة", xp: 5, completed: false },
   { id: "l1_tad_sat", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات (السبت)", description: "تدبر 5 ايات يوم السبت", xp: 5, completed: false },
-  { id: "l1_memo_page", lectureGroup: "المحاضرة الأولى", title: "حفظ وجه", description: "حفظ وجه من القران وتحديد الوقت", xp: 5, completed: false },
 
   // المحاضرة الثانية
   { id: "l2_wed", lectureGroup: "المحاضرة الثانية", title: "تذكر الصور (الأربعاء)", description: "3 محاولات على موقع ميموري ليج", xp: 5, completed: false },
