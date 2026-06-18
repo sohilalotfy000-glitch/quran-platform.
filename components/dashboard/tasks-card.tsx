@@ -26,9 +26,10 @@ const lectureTasksData =[
   { id: "l2_goal", lectureGroup: "المحاضرة الثانية", title: "تحديد الهدف", description: "تحديد الهدف وإرساله", xp: 5, completed: false },
 
   // المحاضرة الثالثة (المهام الجديدة)
-  { id: "l3_new_1", lectureGroup: "المحاضرة الثالثة", title: "تمهيد الصفحة", description: "تمهيد الصفحة", xp: 5, completed: false },
-  { id: "l3_new_2", lectureGroup: "المحاضرة الثالثة", title: "حفظ 3 أوجه", description: "حفظ 3 اوجه في 20 دقيقة", xp: 5, completed: false },
-  { id: "l3_new_3", lectureGroup: "المحاضرة الثالثة", title: "تمارين التركيز", description: "تمارين التركيز", xp: 5, completed: false },
+  { id: "l3_thu", lectureGroup: "المحاضرة الثالثة", title: "حفظ وتمهيد (الخميس)", description: "يوم الخميس حفظ وجه في عشرين دقيقة وتمهيد في سبع دقائق", xp: 5, completed: false },
+  { id: "l3_fri", lectureGroup: "المحاضرة الثالثة", title: "حفظ وتمهيد (الجمعة)", description: "يوم الجمعة حفظ وجه في عشرين دقيقة وتمهيد في سبع دقائق", xp: 5, completed: false },
+  { id: "l3_sat", lectureGroup: "المحاضرة الثالثة", title: "حفظ وتمهيد (السبت)", description: "يوم السبت حفظ وجه في عشرين دقيقة وتمهيد في سبع دقائق", xp: 5, completed: false },
+  { id: "l3_focus", lectureGroup: "المحاضرة الثالثة", title: "تمارين التركيز", description: "تمارين التركيز", xp: 5, completed: false },
 
   // المحاضرة الرابعة
   { id: "l4_eye_sun", lectureGroup: "المحاضرة الرابعة", title: "تمارين العين (الأحد)", description: "تمارين العين 5 دقائق يوم الأحد", xp: 5, completed: false },
@@ -97,8 +98,8 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
 
   useEffect(() => {
     setMounted(true);
-    // التحديث الجديد v21 عشان يمسح الكاش القديم ويظهر مهام المحاضرة التالتة الجديدة
-    const saved = localStorage.getItem("quran-tasks-real-v21");
+    // التحديث الجديد v22 عشان يمسح الكاش القديم ويظهر التعديلات فوراً
+    const saved = localStorage.getItem("quran-tasks-real-v22");
     if (saved) setTasks(JSON.parse(saved));
   },[]);
 
@@ -110,7 +111,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
     const newTasks = tasks.map((t: any) => t.id === taskId ? { ...t, completed: !t.completed } : t);
     setTasks(newTasks);
     
-    localStorage.setItem("quran-tasks-real-v21", JSON.stringify(newTasks));
+    localStorage.setItem("quran-tasks-real-v22", JSON.stringify(newTasks));
     const totalXP = newTasks.filter((t: any) => t.completed).reduce((acc: number, t: any) => acc + t.xp, 0);
     await saveProgress(newTasks, totalXP, user.id, user.firstName || "طالب", user.imageUrl || "");
     router.refresh(); 
