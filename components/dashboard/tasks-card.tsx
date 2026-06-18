@@ -9,7 +9,7 @@ import { useUser } from "@clerk/nextjs"
 import { useRouter } from "next/navigation"
 
 const lectureTasksData =[
-  // المحاضرة الأولى (المهام الجديدة)
+  // المحاضرة الأولى
   { id: "l1_1_new", lectureGroup: "المحاضرة الأولى", title: "مراجعة أسماء السور", description: "مراجعة اسماء 20 سورة من القرآن", xp: 5, completed: false },
   { id: "l1_mem_thu", lectureGroup: "المحاضرة الأولى", title: "ميموري ليج (الخميس)", description: "ثلاث محاولات ميموري ليج يوم الخميس", xp: 5, completed: false },
   { id: "l1_mem_fri", lectureGroup: "المحاضرة الأولى", title: "ميموري ليج (الجمعة)", description: "ثلاث محاولات ميموري ليج يوم الجمعة", xp: 5, completed: false },
@@ -17,6 +17,7 @@ const lectureTasksData =[
   { id: "l1_tad_thu", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات (الخميس)", description: "تدبر 5 ايات يوم الخميس", xp: 5, completed: false },
   { id: "l1_tad_fri", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات (الجمعة)", description: "تدبر 5 ايات يوم الجمعة", xp: 5, completed: false },
   { id: "l1_tad_sat", lectureGroup: "المحاضرة الأولى", title: "تدبر 5 آيات (السبت)", description: "تدبر 5 ايات يوم السبت", xp: 5, completed: false },
+  { id: "l1_memo_page", lectureGroup: "المحاضرة الأولى", title: "حفظ وجه", description: "حفظ وجه من القران وتحديد الوقت", xp: 5, completed: false },
 
   // المحاضرة الثانية
   { id: "l2_wed", lectureGroup: "المحاضرة الثانية", title: "تذكر الصور (الأربعاء)", description: "3 محاولات على موقع ميموري ليج", xp: 5, completed: false },
@@ -24,15 +25,10 @@ const lectureTasksData =[
   { id: "l2_memo", lectureGroup: "المحاضرة الثانية", title: "حفظ صفحة في القرآن", description: "في نصف ساعة", xp: 5, completed: false },
   { id: "l2_goal", lectureGroup: "المحاضرة الثانية", title: "تحديد الهدف", description: "تحديد الهدف وإرساله", xp: 5, completed: false },
 
-  // المحاضرة الثالثة
-  { id: "l3_1", lectureGroup: "المحاضرة الثالثة", title: "المؤقت الحلزوني", description: "طباعة وتنفيذ المؤقت الحلزوني", xp: 5, completed: false },
-  { id: "l3_2", lectureGroup: "المحاضرة الثالثة", title: "حفظ الصفحة (الخميس)", description: "تهيئة الصفحة 7دقايق وحفظ الصفحة في نصف ساعة", xp: 5, completed: false },
-  { id: "l3_3", lectureGroup: "المحاضرة الثالثة", title: "حفظ الصفحة (الجمعة)", description: "تهيئة الصفحة 7دقايق وحفظ الصفحة في نصف ساعة", xp: 5, completed: false },
-  { id: "l3_4", lectureGroup: "المحاضرة الثالثة", title: "حفظ الصفحة (السبت)", description: "تهيئة الصفحة 7دقايق وحفظ الصفحة في اقل من نصف ساعة", xp: 5, completed: false },
-  { id: "l3_5", lectureGroup: "المحاضرة الثالثة", title: "مراجعة أسماء السور", description: "مراجعة 39 اسماء سور القرآن بالترتيب", xp: 5, completed: false },
-  { id: "l3_6", lectureGroup: "المحاضرة الثالثة", title: "ميموري ليج (الخميس)", description: "3 محاولات ميموري ليج يوم الخميس", xp: 5, completed: false },
-  { id: "l3_7", lectureGroup: "المحاضرة الثالثة", title: "ميموري ليج (الجمعة)", description: "3 محاولات ميموري ليج يوم الجمعة", xp: 5, completed: false },
-  { id: "l3_8", lectureGroup: "المحاضرة الثالثة", title: "ميموري ليج (السبت)", description: "3 محاولات ميموري ليج يوم السبت", xp: 5, completed: false },
+  // المحاضرة الثالثة (المهام الجديدة)
+  { id: "l3_new_1", lectureGroup: "المحاضرة الثالثة", title: "تمهيد الصفحة", description: "تمهيد الصفحة", xp: 5, completed: false },
+  { id: "l3_new_2", lectureGroup: "المحاضرة الثالثة", title: "حفظ 3 أوجه", description: "حفظ 3 اوجه في 20 دقيقة", xp: 5, completed: false },
+  { id: "l3_new_3", lectureGroup: "المحاضرة الثالثة", title: "تمارين التركيز", description: "تمارين التركيز", xp: 5, completed: false },
 
   // المحاضرة الرابعة
   { id: "l4_eye_sun", lectureGroup: "المحاضرة الرابعة", title: "تمارين العين (الأحد)", description: "تمارين العين 5 دقائق يوم الأحد", xp: 5, completed: false },
@@ -101,8 +97,8 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
 
   useEffect(() => {
     setMounted(true);
-    // التحديث الجديد v20 عشان يمسح الكاش القديم
-    const saved = localStorage.getItem("quran-tasks-real-v20");
+    // التحديث الجديد v21 عشان يمسح الكاش القديم ويظهر مهام المحاضرة التالتة الجديدة
+    const saved = localStorage.getItem("quran-tasks-real-v21");
     if (saved) setTasks(JSON.parse(saved));
   },[]);
 
@@ -114,7 +110,7 @@ export function TasksCard({ type }: { type: "daily" | "lecture" }) {
     const newTasks = tasks.map((t: any) => t.id === taskId ? { ...t, completed: !t.completed } : t);
     setTasks(newTasks);
     
-    localStorage.setItem("quran-tasks-real-v20", JSON.stringify(newTasks));
+    localStorage.setItem("quran-tasks-real-v21", JSON.stringify(newTasks));
     const totalXP = newTasks.filter((t: any) => t.completed).reduce((acc: number, t: any) => acc + t.xp, 0);
     await saveProgress(newTasks, totalXP, user.id, user.firstName || "طالب", user.imageUrl || "");
     router.refresh(); 
